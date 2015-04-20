@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pageElements>
+  <pageElement elementName="lot" xPath=".//*[@id='Lot']"/>
+  <pageElement elementName="entrytime" xPath=".//*[@id='EntryTime']"/>
+  <pageElement elementName="entrydate" xPath=".//*[@id='EntryDate']"/>
+  <pageElement elementName="exittime" xPath=".//*[@id='ExitTime']"/>
+  <pageElement elementName="exitdate" xPath=" .//*[@id='ExitDate']"/>
+  <pageElement elementName="entryAM" xPath="//input[@value='AM' and @name='EntryTimeAMPM']"/>
+  <pageElement elementName="entryPM" xPath="//input[@value='PM' and @name='EntryTimeAMPM']"/>
+  <pageElement elementName="exitAM"  xPath="//input[@value='AM' and @name='ExitTimeAMPM']"/>
+  <pageElement elementName="exitPM" xPath="//input[@value='PM' and @name='ExitTimeAMPM']"/>
+  <pageElement elementName="cost" xPath="//span[@class='SubHead']/font/b"/>
+  <pageElement elementName="calculate" xPath="//input[@type='submit']"/>
+  <pageElement elementName="bodycopy" xPath="//span[@class='BodyCopy']/font/b"/>
+</pageElements>
