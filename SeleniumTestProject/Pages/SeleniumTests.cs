@@ -13,7 +13,6 @@ namespace SeleniumTestProject.Pages
         public void TestFixtureSetup()
         {
             driver = StartBrowser();
-            ParkingCalc parkingcalc = new ParkingCalc(driver);
         }
 
         [TestFixtureTearDown]
@@ -43,7 +42,7 @@ namespace SeleniumTestProject.Pages
         public void OneHourShortTerm()
         {
             ParkingCalc parkingcalc = new ParkingCalc(driver);
-            Assert.AreEqual(parkingcalc.FillOutParkingForm(
+            double result = parkingcalc.FillOutParkingForm(
                 driver,
                 "STP",
                 "6:00",
@@ -52,7 +51,24 @@ namespace SeleniumTestProject.Pages
                 "7:00",
                 "PM",
                 "04/01/2015"
-                ),2.00);
+                );
+            Assert.AreEqual(result,2.00);
+        }
+        [Test]
+        public void FourHourEconomy()
+        {
+            ParkingCalc parkingcalc = new ParkingCalc(driver);
+            double result = parkingcalc.FillOutParkingForm(
+                driver,
+                "EP",
+                "6:30",
+                "PM",
+                "04/01/2015",
+                "10:30",
+                "PM",
+                "04/01/2015"
+                );
+            Assert.AreEqual(result, 16.00);
         }
     }
 }

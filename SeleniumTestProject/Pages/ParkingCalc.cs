@@ -59,31 +59,108 @@ namespace SeleniumTestProject.Pages
                 {
                     String elementXPath=elementList[element];
                     var verify=driver.FindElement(By.XPath(elementXPath));
-                    Console.Write("Found " + element + " using XPath "+verify.Text);
+                    Console.Write("VerifyElements: Found " + element + " using XPath "+elementXPath);
                 }
                 catch (Exception)
                 {
-                    Console.Write("Error: could not find "+element);
+                    Console.Write("VerifyElements Error: could not find "+element);
                     return false;
                     throw;
                 } 
             }
             return true;
         }
+        public IWebElement CreateSelObject(IWebDriver driver, String varname)
+        {
+            String xpath = elementList[varname];
+            IWebElement el = driver.FindElement(By.XPath(xpath));
+            return el;
+        }
+        public void LotSelect(IWebDriver driver, String lotchoice)
+        {
+            SelectElement lotdropdown = new SelectElement(driver.FindElement(By.XPath(elementList["lot"])));
+            try 
+	        {	        
+		    lotdropdown.SelectByValue(lotchoice);
+	        }
+	        catch (OpenQA.Selenium.NoSuchElementException)
+	        {
+		        Console.Write("LotSelect Error: LotSelect tried to find {0} using {1} but could not find the element",lotchoice,elementList["lot"]);
+		        throw;
+	        }
+        }      
         public double FillOutParkingForm(
             IWebDriver driver,
             String selectedlot,
-            String entrytime,
-            String entryAMPM,
-            String entrydate,
-            String exittime, 
-            String exitAMPM,
-            String exitdate
+            String en_time,
+            String en_AMPM,
+            String en_date,
+            String ex_time, 
+            String ex_AMPM,
+            String ex_date
             )
         {
-            
-            return 2.00;
+            IWebElement entrytime = CreateSelObject(driver, "entrytime");
+            IWebElement entrydate = CreateSelObject(driver, "entrydate");
+            IWebElement entryAM = CreateSelObject(driver, "entryAM");
+            IWebElement entryPM = CreateSelObject(driver, "entryPM");
+            IWebElement exittime = CreateSelObject(driver, "exittime");
+            IWebElement exitdate = CreateSelObject(driver, "exitdate");
+            IWebElement exitAM = CreateSelObject(driver, "exitAM");
+            IWebElement exitPM = CreateSelObject(driver, "exitPM");
+            IWebElement submitbutton = CreateSelObject(driver, "calculate");
+            double result;
 
+            LotSelect(driver,selectedlot); //Select lot from dropdown by value passed in selectedlot
+            entrytime.Clear();
+            entrytime.SendKeys(en_time); //Enter the entry time
+            entrydate.Clear();
+            entrydate.SendKeys(en_date); //Enter the entry date
+            if (en_AMPM=="AM")
+            {
+                entryAM.Click();
+            }
+            else if (en_AMPM=="PM")
+            {
+                entryPM.Click();
+            }
+            else{
+                Console.WriteLine("FillOutParkingForm Warning: FillOutParkingForm was passed {0} in en_AMPM. Valid values are 'AM' or 'PM'. Default used.",en_AMPM);
+            }
+            exittime.Clear();
+            exittime.SendKeys(ex_time); //Enter the exit time
+            exitdate.Clear();
+            exitdate.SendKeys(ex_date); //Enter the exit date
+            if (ex_AMPM=="AM")
+            {
+                exitAM.Click();
+            }
+            else if (ex_AMPM=="PM")
+            {
+                exitPM.Click();
+            }
+            else{
+                Console.WriteLine("FillOutParkingForm Warning: FillOutParkingForm was passed {0} in ex_AMPM. Valid values are 'AM' or 'PM'. Default used.",ex_AMPM);
+            }
+            submitbutton.Click();
+            //ParkingCalc will do either of two things:
+            //   1. Return a cost and an elapsed time parked (if all data is valid)
+            //   2. Return an error (like when the exit date is before the entry date)
+            //We will determine success by looking for the 1st character of "cost"
+            //If it is a $, then the calculation was a success.
+            //If not, 'cost' will be an error message, so we will return -1 which should always result in a test fail
+            String cost = CreateSelObject(driver, "cost").Text;
+            if (cost.StartsWith("$"))
+            {
+                Console.WriteLine("FillOutParkingForm: Calcuation was successful, returned: {0}", cost);
+                result = Convert.ToDouble(cost.Remove(0, 1));
+            }
+            else
+            {
+                Console.WriteLine("FillOutParkingForm: Calcuation returned: {0}", cost);
+                result = -1.00;
+            }
+            return result;
         }
     }
 }

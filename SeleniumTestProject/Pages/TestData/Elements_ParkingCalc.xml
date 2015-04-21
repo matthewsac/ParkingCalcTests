@@ -11,5 +11,6 @@
   <pageElement elementName="exitPM" xPath="//input[@value='PM' and @name='ExitTimeAMPM']"/>
   <pageElement elementName="cost" xPath="//span[@class='SubHead']/font/b"/>
   <pageElement elementName="calculate" xPath="//input[@type='submit']"/>
-  <pageElement elementName="bodycopy" xPath="//span[@class='BodyCopy']/font/b"/>
+  <pageElement elementName="cost" xPath="//tbody/tr[last()]/td[last()]/span[1]/font/b"/>
+  <pageElement elementName="elapsedtime" xpath="//tbody/tr[last()]/td[last()]/span[2]/font/b"/>
 </pageElements>
