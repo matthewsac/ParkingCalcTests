@@ -9,11 +9,11 @@ The web is ripe with information about test automation architecture, C# programm
 
 CURRENT STATE
 
--Framework functionally complete
--Framwork reads element definitions from XML file
--Happy path tests are written in NUnit and read simple true/false assertions directly from the framework
+Framework functionally complete
+Framework reads element definitions from XML file
+Happy path tests are written in NUnit and read simple true/false assertions directly from the framework
 
 IN PROGRESS
--Richer assertions against a result object containing lots of metadata
--Negative testing & error checking methods
--Adding SpecFlow to the mix to demonstrate test definitions in Gherkin that plug directly into the framework
+Richer assertions against a result object containing lots of metadata
+Negative testing & error checking methods
+Adding SpecFlow to the mix to demonstrate test definitions in Gherkin that plug directly into the framework
